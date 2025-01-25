@@ -1,4 +1,4 @@
-def print_help():
+def print_help() -> None:
     print('Commands:')
     print("'W' or 'w' - Up")
     print("'S' or 's' - Down")
@@ -6,7 +6,7 @@ def print_help():
     print("'D' or 'd' - Right")
 
 
-def print_matrix(matrix):
+def print_matrix(matrix: list[list]) -> None:
     '''Print matrix to console'''
 
     for i in range(len(matrix)):
@@ -19,32 +19,33 @@ def print_matrix(matrix):
 
 
 def get_command() -> str:
-    '''Get of command
-       Return command'''
+    '''Validation and return command: up, down, left, right, exit'''
 
     while True:
-        command = input('Enter the command: ').lower()
-        cmd_validation(command)
-        if cmd_validation(command):
+        input_command = input('Enter the command: ').lower()
+        command = cmd_validation(input_command)
+        if command:
             break
 
     return command
 
 
-def cmd_validation(command: str) -> bool:
+def cmd_validation(command: str) -> bool | str:
     '''Command validation'''
 
-    if command.lower() == 'exit':
-        print()
-        print('Bye!')
-        exit()
+    if command == 'exit':
+        return command
     elif not command:
         return False
     elif not command.isalpha():
         return False
     elif len(command) != 1:
         return False
-    elif command not in 'wasdцфыв':
-        return False
-    else:
-        return True
+    elif command in 'wц':
+        return 'up'
+    elif command in 'aф':
+        return 'left'
+    elif command in 'sы':
+        return 'down'
+    elif command in 'dв':
+        return 'right'

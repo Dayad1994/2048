@@ -1,30 +1,22 @@
-from model import *
+from model import MatrixModel
 from view import print_matrix, print_help, get_command
 
 
-def run_game():
-    '''Run game'''
+def one_move(matrix: MatrixModel) -> None:
+    '''One move'''
     command = get_command()
-    flag = move(command)
-    if flag:
-        zeros = search_free_positions()
-        if zeros:
-            set_two_in_random_position(zeros)
-        else:
-            print('Вы проиграли')
-            raise KeyboardInterrupt
+    if command == 'exit' or not matrix.move(command):
+        raise KeyboardInterrupt
+    print_matrix(matrix.matrix)
 
-    print_matrix(MATRIX)
-
-
-def configure_game():
+def init_game() -> MatrixModel:
     print_help()
 
     size = get_size()
-    set_matrix(size)
-    set_two_in_start_matrix()
+    matrix = MatrixModel(size)
 
-    print_matrix(MATRIX)
+    print_matrix(matrix.matrix)
+    return matrix
 
 
 def get_size() -> int:
@@ -34,9 +26,7 @@ def get_size() -> int:
     while True:
         size = input('Enter size of matrix from 4 to 8: ')
         if size.lower() == 'exit':
-            print()
-            print('Bye!')
-            exit()
+            raise KeyboardInterrupt
         elif not size:
             continue
         elif len(size) != 1:
