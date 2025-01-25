@@ -1,4 +1,4 @@
-from model import MATRIX, move, search_free_positions, set_two_in_random_position, set_matrix, set_two_in_start_matrix
+from model import *
 from view import print_matrix, print_help, get_command
 
 

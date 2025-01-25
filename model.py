@@ -1,5 +1,14 @@
-import random
 from copy import deepcopy
+from random import choice
+
+__all__ = [
+    'MATRIX',
+    'move',
+    'search_free_positions',
+    'set_two_in_random_position',
+    'set_matrix',
+    'set_two_in_start_matrix',
+    ]
 
 
 MATRIX = []
@@ -37,9 +46,8 @@ def search_free_positions() -> dict:
 
 def set_two_in_random_position(zeros: dict) -> None:
     '''Random selection of a position for a new "2".'''
-
-    pos_i = random.choice([*zeros.keys()])
-    pos_j = random.choice(zeros[pos_i])
+    pos_i = choice([*zeros.keys()])
+    pos_j = choice(zeros[pos_i])
     MATRIX[pos_i][pos_j] = 2
 
 
