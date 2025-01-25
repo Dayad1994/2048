@@ -1,31 +1,30 @@
-from model import move, search_free_positions, set_two_in_random_position, set_matrix, set_two_in_start_matrix
+from model import MATRIX, move, search_free_positions, set_two_in_random_position, set_matrix, set_two_in_start_matrix
 from view import print_matrix, print_help, get_command
 
 
-def run_game(matrix):
+def run_game():
     '''Run game'''
     command = get_command()
-    flag = move(matrix, command)
+    flag = move(command)
     if flag:
-        zeros = search_free_positions(matrix)
+        zeros = search_free_positions()
         if zeros:
-            set_two_in_random_position(zeros, matrix)
+            set_two_in_random_position(zeros)
         else:
             print('Вы проиграли')
             raise KeyboardInterrupt
 
-    print_matrix(matrix)
+    print_matrix(MATRIX)
 
 
 def configure_game():
     print_help()
 
     size = get_size()
-    matrix = set_matrix(size)
-    set_two_in_start_matrix(matrix)
+    set_matrix(size)
+    set_two_in_start_matrix()
 
-    print_matrix(matrix)
-    return matrix
+    print_matrix(MATRIX)
 
 
 def get_size() -> int:

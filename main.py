@@ -4,9 +4,9 @@ from controller import run_game, configure_game
 def main():
     '''Run game loop'''
     try:
-        matrix = configure_game()
+        configure_game()
         while True:
-            run_game(matrix)
+            run_game()
 
     except KeyboardInterrupt:
         print()

@@ -2,61 +2,63 @@ import random
 from copy import deepcopy
 
 
+MATRIX = []
+
+
 def set_matrix(size) -> list[list[int]]:
     '''Setting of matrix.
        Return matrix'''
 
-    matrix = [[0] * size for i in range(size)]
+    for _ in range(size):
+        MATRIX.append([0] * size)
 
-    return matrix
 
-
-def set_two_in_start_matrix(matrix):
+def set_two_in_start_matrix():
     '''set two in start matrix'''
 
-    zeros = search_free_positions(matrix)
-    set_two_in_random_position(zeros, matrix)
+    zeros = search_free_positions()
+    set_two_in_random_position(zeros)
 
 
-def search_free_positions(matrix) -> dict:
+def search_free_positions() -> dict:
     '''Searching of all free positions in matrix'''
 
     zeros = {}
 
-    for i in range(len(matrix)):
+    for i in range(len(MATRIX)):
         row_zeros = []
-        for j in range(len(matrix)):
-            if matrix[i][j] == 0:
+        for j in range(len(MATRIX)):
+            if MATRIX[i][j] == 0:
                 row_zeros.append(j)
         if row_zeros:
             zeros[i] = row_zeros
     return zeros
 
 
-def set_two_in_random_position(zeros: dict, matrix) -> None:
+def set_two_in_random_position(zeros: dict) -> None:
     '''Random selection of a position for a new "2".'''
 
     pos_i = random.choice([*zeros.keys()])
     pos_j = random.choice(zeros[pos_i])
-    matrix[pos_i][pos_j] = 2
+    MATRIX[pos_i][pos_j] = 2
 
 
-def move(matrix, command) -> bool:
+def move(command) -> bool:
     '''Start of moving matrix.
        Return True if matrix changed'''
 
-    matrix_old = deepcopy(matrix)
+    matrix_old = deepcopy(MATRIX)
 
     if command in 'aф':
-        move_left(matrix)
+        move_left(MATRIX)
     elif command in 'dв':
-        move_right(matrix)
+        move_right(MATRIX)
     elif command in 'wц':
-        move_top(matrix)
+        move_top()
     else:
-        move_down(matrix)
+        move_down()
 
-    if matrix != matrix_old:
+    if MATRIX != matrix_old:
         return True
 
 
@@ -94,42 +96,42 @@ def move_right(matrix: list[list[int]]) -> None:
         matrix[i].reverse()
 
 
-def move_top(matrix) -> None:
+def move_top() -> None:
     '''Move and merge digits in matrix to top'''
 
-    transposed_matrix = transpose_matrix(matrix)
+    transposed_matrix = transpose_matrix()
 
     move_left(transposed_matrix)
 
-    back_transpose_matrix(matrix, transposed_matrix)
+    back_transpose_matrix(transposed_matrix)
 
 
-def move_down(matrix) -> None:
+def move_down() -> None:
     '''Move and merge digits in matrix to down'''
 
-    transposed_matrix = transpose_matrix(matrix)
+    transposed_matrix = transpose_matrix()
 
     move_right(transposed_matrix)
 
-    back_transpose_matrix(matrix, transposed_matrix)
+    back_transpose_matrix(transposed_matrix)
 
 
-def transpose_matrix(matrix) -> list[list[int]]:
+def transpose_matrix() -> list[list[int]]:
     '''Transpose matrix.
        Return new transposed matrix.'''
 
-    transposed_matrix = [[0] * len(matrix) for _ in range(len(matrix))]
+    transposed_matrix = [[0] * len(MATRIX) for _ in range(len(MATRIX))]
 
-    for i in range(len(matrix)):
-        for j in range(len(matrix)):
-            transposed_matrix[j][i] = matrix[i][j]
+    for i in range(len(MATRIX)):
+        for j in range(len(MATRIX)):
+            transposed_matrix[j][i] = MATRIX[i][j]
 
     return transposed_matrix
 
 
-def back_transpose_matrix(matrix, transposed_matrix: list[list[int]]) -> None:
+def back_transpose_matrix(transposed_matrix: list[list[int]]) -> None:
     '''Back transpose matrix'''
 
-    for i in range(len(matrix)):
-        for j in range(len(matrix)):
-            matrix[j][i] = transposed_matrix[i][j]
+    for i in range(len(MATRIX)):
+        for j in range(len(MATRIX)):
+            MATRIX[j][i] = transposed_matrix[i][j]
